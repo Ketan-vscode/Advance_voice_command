@@ -3,19 +3,16 @@ y = 0;
 screen_width = 0;
 screen_height = 0;
 
-var apple = "";
-var speak_data = "";
-var  to_number = ""
+apple = "";
+speak_data = "";
+to_number = 0;
 
 draw_apple = "";
 
-var SpeechRecognition = window.webkitSpeechRecognition;
-  
-var recognition = new SpeechRecognition();
-
 function preload(){
-  loadImage("apple.png");
-  
+  apple = loadImage("apple.png");
+  var SpeechRecognition = window.webkitSpeechRecognition;
+  var recognition = new SpeechRecognition();
 }
 
 function start()
@@ -38,7 +35,7 @@ recognition.onresult = function(event) {
       draw_apple = "set";
     }
     else{
-      document.getElementById("The speech has not recognized a number ");
+      document.getElementById("status").innerHTML = "The speech has not recognized a number";
     }
 }
 
@@ -46,22 +43,18 @@ function setup() {
   screen_width = window.innerWidth;
   screen_height = window.innerHeight;
 
-  createCanvas(screen_width , screen_height - 150);
-  canvas.position(100,120);
+  canvas = createCanvas(screen_width , screen_height - 150);
+  canvas.position(0,150);
 }
 
 function draw() {
-  if(draw_apple == "set")
-  {
-    document.getElementById("status").innerHTML = to_number + " Apples drawn";
-    draw_apple = "";
-  }
 
   for(var i = 1; i <= to_number; i++){
     x = Math.floor(Math.random() * 700);
     y = Math.floor(Math.random() * 400);
     image(apple , x , y , 50 , 50);
   }
+  document.getElementById("status").innerHTML = to_number + " Apples drawn";
 }
 function speak(){
     var synth = window.speechSynthesis;
@@ -70,6 +63,7 @@ function speak(){
 
     synth.speak(utterThis);
 
-    speak_data = document.getElementById("status").innerHTML = to_number + "Apple Drawn";
+    speak_data = "";
     speak();
 }
+
